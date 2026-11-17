@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "storeName": "Zayaan Apps",
-  "updatedAt": "2026-11-17T22:06:40Z",
+  "updatedAt": "2026-11-17T22:28:05Z",
   "categories": [
     "All Apps",
     "Productivity",
@@ -34,16 +34,16 @@
         "Offline catalog caching & download history"
       ],
       "category": "Tools",
-      "versionName": "1.0.1",
-      "versionCode": 2,
+      "versionName": "1.0.2",
+      "versionCode": 3,
       "releaseDate": "2026-11-17",
-      "releaseUrl": "https://github.com/g4scumilla/21stfeb/releases/tag/v1.0.0-1",
-      "apkUrl": "https://github.com/g4scumilla/21stfeb/releases/download/v1.0.0-1/MyStore-v1.0.0-1.apk",
-      "apkSizeBytes": 15186654,
-      "sha256": "8346cdbf1a39a74c598b7ab44908479a6cd14fc74a0e01e00844e1611e96df99",
+      "releaseUrl": "https://github.com/g4scumilla/21stfeb/releases/tag/v1.0.2",
+      "apkUrl": "https://github.com/g4scumilla/21stfeb/releases/download/v1.0.2/ZayaanApps-v1.0.2.apk",
+      "apkSizeBytes": 15742206,
+      "sha256": "f0f65b2110a2f8a453a27a41a0b62e3b0261c6f4067d3f73c9265e5924479c65",
       "minAndroidVersion": "Android 8.0 (API 26)",
       "minSdk": 26,
-      "releaseNotes": "Auto-published update from AI Studio push (35e3d733194191214201b9fbb74f3e27db46e788)",
+      "releaseNotes": "Auto-published update from AI Studio push (b9f9da1fd12f4f22f76b5a2714ff741ba58a0c84)",
       "permissions": [
         "INTERNET \u2014 Fetch app catalog and download APKs over HTTPS",
         "ACCESS_NETWORK_STATE \u2014 Detect offline mode accurately",
