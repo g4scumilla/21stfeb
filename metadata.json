@@ -1,0 +1,6 @@
+{
+  "name": "My Store",
+  "description": "Public Android APK marketplace powered by GitHub Releases and GitHub Pages.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "storeName": "My Store",
+  "updatedAt": "2026-11-17T10:00:00Z",
+  "categories": [
+    "All Apps",
+    "Productivity",
+    "Security",
+    "Business",
+    "Utilities",
+    "Education",
+    "Finance",
+    "Entertainment",
+    "Tools",
+    "Games"
+  ],
+  "apps": [
+    {
+      "id": "my-store",
+      "name": "My Store",
+      "packageName": "com.mystore.app",
+      "shortDescription": "Public independent Android APK marketplace powered by GitHub Releases.",
+      "description": "My Store is a privacy-respecting, independent Android APK marketplace built for distributing and updating public releases directly from GitHub Releases. Every APK download uses HTTPS, verifies its SHA-256 checksum against the trusted catalog, and hands off installation to Android's official PackageInstaller with full user confirmation.",
+      "developer": "My Store Publisher",
+      "iconUrl": "",
+      "screenshots": [],
+      "features": [
+        "HTTPS-only APK downloads with real-time progress",
+        "SHA-256 cryptographic file integrity verification",
+        "Official Android PackageInstaller confirmation flow",
+        "Automatic update detection & self-update support",
+        "Offline catalog caching & download history"
+      ],
+      "category": "Tools",
+      "versionName": "1.0.0",
+      "versionCode": 1,
+      "releaseDate": "2026-11-17",
+      "releaseUrl": "",
+      "apkUrl": "",
+      "apkSizeBytes": 0,
+      "sha256": "",
+      "minAndroidVersion": "Android 8.0 (API 26)",
+      "minSdk": 26,
+      "releaseNotes": "Initial 1.0.0 release of My Store featuring Material 3 Dark/Light/System themes, GitHub Pages catalog sync, HTTPS APK download manager, SHA-256 verification, official PackageInstaller flow, and update detection.",
+      "permissions": [
+        "INTERNET — Fetch app catalog and download APKs over HTTPS",
+        "ACCESS_NETWORK_STATE — Detect offline mode accurately",
+        "REQUEST_INSTALL_PACKAGES — Hand off verified APKs to Android's package installer",
+        "POST_NOTIFICATIONS — Notify when downloads complete or updates are available"
+      ],
+      "featured": true,
+      "active": true,
+      "addedAt": "2026-11-17T10:00:00Z",
+      "downloadCount": null
+    }
+  ]
+}

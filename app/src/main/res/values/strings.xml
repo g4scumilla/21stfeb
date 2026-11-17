@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">My Store</string>
+    <string name="app_tagline">Independent APK Marketplace</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_categories">Categories</string>
+    <string name="nav_updates">Updates</string>
+    <string name="nav_downloads">Downloads</string>
+    <string name="nav_settings">Settings</string>
+    <string name="search_placeholder">Search apps, developers, packages…</string>
+    <string name="offline_banner">Offline Mode — Showing cached catalog. Release status may not reflect latest updates.</string>
+    <string name="third_party_disclosure">Third-party APKs are independently distributed via GitHub Releases and have not necessarily been reviewed by Google Play. SHA-256 verifies file integrity against the catalog checksum; it does not prove an APK is malware-free.</string>
+    <string name="install_permission_title">Allow App Installations</string>
+    <string name="install_permission_message">Android requires your permission before My Store can hand off a verified APK to the official system package installer. You will always confirm every install or update.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
+    <string name="download">Download</string>
+    <string name="update_now">Update Now</string>
+    <string name="install">Install</string>
+    <string name="installed">Installed</string>
+    <string name="open_app">Open</string>
+</resources>

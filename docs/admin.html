@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Catalog Publisher — My Store</title>
+  <link rel="icon" type="image/png" href="assets/mystore-logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/mystore-logo.png" alt="My Store Logo" class="brand-logo" />
+        <div>
+          <span class="brand-title">My Store Admin</span>
+          <span class="brand-sub">Zero-Code Catalog Generator</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Marketplace</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-width:920px;">
+      <h1>Publish a New App (No Coding Needed)</h1>
+      <p class="muted">
+        Select your APK file below to compute its exact SHA-256 checksum and file size locally in your browser.
+        Nothing is uploaded from this page, and no GitHub tokens are stored here.
+      </p>
+
+      <div class="info-card" style="margin-bottom:20px;">
+        <h3>Step 1: Inspect APK File (Auto-computes SHA-256 &amp; Size)</h3>
+        <input id="apk-file" type="file" accept=".apk" />
+        <p id="apk-hash-status" class="muted" style="margin-top:8px;">No APK selected yet.</p>
+      </div>
+
+      <form id="admin-form" class="info-card" style="margin-bottom:20px;">
+        <h3>Step 2: Application Metadata</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="app-name">App Name *</label>
+            <input id="app-name" required placeholder="e.g. Budget Tracker" />
+          </div>
+          <div class="field">
+            <label for="pkg-name">Package Name *</label>
+            <input id="pkg-name" required placeholder="e.g. com.yourname.budget" />
+          </div>
+          <div class="field">
+            <label for="developer">Developer Name *</label>
+            <input id="developer" required value="My Store Publisher" />
+          </div>
+          <div class="field">
+            <label for="category">Category *</label>
+            <select id="category">
+              <option>Productivity</option>
+              <option>Security</option>
+              <option>Business</option>
+              <option>Utilities</option>
+              <option>Education</option>
+              <option>Finance</option>
+              <option>Entertainment</option>
+              <option>Tools</option>
+              <option>Games</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="version-name">Version Name *</label>
+            <input id="version-name" required placeholder="1.0.0" />
+          </div>
+          <div class="field">
+            <label for="version-code">Version Code (integer) *</label>
+            <input id="version-code" type="number" min="1" required value="1" />
+          </div>
+          <div class="field">
+            <label for="release-url">GitHub Release URL (HTTPS)</label>
+            <input id="release-url" placeholder="https://github.com/USER/REPO/releases/tag/v1.0.0" />
+          </div>
+          <div class="field">
+            <label for="apk-url">Direct APK Download URL (HTTPS) *</label>
+            <input id="apk-url" required placeholder="https://github.com/USER/REPO/releases/download/v1.0.0/app.apk" />
+          </div>
+          <div class="field">
+            <label for="icon-url">Icon URL (HTTPS or assets/...)</label>
+            <input id="icon-url" placeholder="assets/my-app-icon.png" />
+          </div>
+          <div class="field">
+            <label for="min-android">Minimum Android Version</label>
+            <input id="min-android" value="Android 8.0 (API 26)" />
+          </div>
+          <div class="field">
+            <label for="apk-size">APK Size (Bytes)</label>
+            <input id="apk-size" type="number" min="0" value="0" />
+          </div>
+          <div class="field">
+            <label for="sha256">SHA-256 Checksum</label>
+            <input id="sha256" placeholder="Auto-filled when you pick an APK above" />
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:14px;">
+          <label for="short-desc">Short Description *</label>
+          <input id="short-desc" required placeholder="One-line summary shown on app cards" />
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="full-desc">Full Description *</label>
+          <textarea id="full-desc" rows="3" required placeholder="Detailed app description"></textarea>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="release-notes">Release Notes (What's New)</label>
+          <textarea id="release-notes" rows="2" placeholder="Bug fixes and improvements..."></textarea>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="screenshots">Screenshot URLs (one per line)</label>
+          <textarea id="screenshots" rows="2" placeholder="assets/screen1.png"></textarea>
+        </div>
+        <div class="field" style="margin-top:14px;">
+          <label for="permissions">Permissions Summary (one per line)</label>
+          <textarea id="permissions" rows="2" placeholder="INTERNET — Sync data over HTTPS"></textarea>
+        </div>
+        <div style="margin-top:14px;">
+          <label><input id="featured" type="checkbox" /> Mark as Featured App</label>
+        </div>
+
+        <div class="hero-actions" style="margin-top:18px;">
+          <button class="btn btn-primary" type="submit">Generate Updated catalog.json</button>
+          <button id="download-json-btn" class="btn btn-secondary hidden" type="button">Download catalog.json</button>
+        </div>
+      </form>
+
+      <div id="output-card" class="info-card hidden">
+        <h3>Step 3: Upload Updated <code>docs/data/catalog.json</code> to GitHub</h3>
+        <ol class="muted">
+          <li>Download the generated <code>catalog.json</code> file using the button above.</li>
+          <li>On GitHub.com, open your repository and go to <code>docs/data/catalog.json</code>.</li>
+          <li>Click the pencil (Edit) or Upload file button, replace with your new <code>catalog.json</code>, and click <strong>Commit changes</strong>.</li>
+          <li>GitHub Pages refreshes automatically within ~1 minute!</li>
+        </ol>
+        <pre id="json-preview" class="code-box" style="max-height:320px;overflow:auto;"></pre>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      let currentCatalog = null;
+      let generatedJson = "";
+
+      fetch("./data/catalog.json")
+        .then((r) => r.json())
+        .then((data) => { currentCatalog = data; })
+        .catch(() => {
+          currentCatalog = {
+            schemaVersion: 1,
+            storeName: "My Store",
+            updatedAt: new Date().toISOString(),
+            categories: ["All Apps", "Productivity", "Security", "Business", "Utilities", "Education", "Finance", "Entertainment", "Tools", "Games"],
+            apps: []
+          };
+        });
+
+      document.getElementById("apk-file").addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const status = document.getElementById("apk-hash-status");
+        status.textContent = "Computing SHA-256 locally in browser…";
+        document.getElementById("apk-size").value = file.size;
+        const buffer = await file.arrayBuffer();
+        const hashBuf = await crypto.subtle.digest("SHA-256", buffer);
+        const hex = Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+        document.getElementById("sha256").value = hex;
+        status.textContent = `Ready: ${file.name} (${file.size.toLocaleString()} bytes) • SHA-256: ${hex}`;
+      });
+
+      document.getElementById("admin-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("app-name").value.trim();
+        const pkg = document.getElementById("pkg-name").value.trim();
+        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || pkg;
+        const today = new Date().toISOString().slice(0, 10);
+        const nowIso = new Date().toISOString();
+
+        const entry = {
+          id: slug,
+          name: name,
+          packageName: pkg,
+          shortDescription: document.getElementById("short-desc").value.trim(),
+          description: document.getElementById("full-desc").value.trim(),
+          developer: document.getElementById("developer").value.trim(),
+          iconUrl: document.getElementById("icon-url").value.trim(),
+          screenshots: document.getElementById("screenshots").value.split("\n").map((s) => s.trim()).filter(Boolean),
+          features: [],
+          category: document.getElementById("category").value,
+          versionName: document.getElementById("version-name").value.trim(),
+          versionCode: parseInt(document.getElementById("version-code").value, 10) || 1,
+          releaseDate: today,
+          releaseUrl: document.getElementById("release-url").value.trim(),
+          apkUrl: document.getElementById("apk-url").value.trim(),
+          apkSizeBytes: parseInt(document.getElementById("apk-size").value, 10) || 0,
+          sha256: document.getElementById("sha256").value.trim(),
+          minAndroidVersion: document.getElementById("min-android").value.trim(),
+          minSdk: 26,
+          releaseNotes: document.getElementById("release-notes").value.trim(),
+          permissions: document.getElementById("permissions").value.split("\n").map((s) => s.trim()).filter(Boolean),
+          featured: document.getElementById("featured").checked,
+          active: true,
+          addedAt: nowIso,
+          downloadCount: null
+        };
+
+        const catalog = JSON.parse(JSON.stringify(currentCatalog));
+        catalog.updatedAt = nowIso;
+        const idx = catalog.apps.findIndex((a) => a.packageName === pkg || a.id === slug);
+        if (idx >= 0) {
+          catalog.apps[idx] = entry;
+        } else {
+          catalog.apps.push(entry);
+        }
+
+        generatedJson = JSON.stringify(catalog, null, 2);
+        document.getElementById("json-preview").textContent = generatedJson;
+        document.getElementById("output-card").classList.remove("hidden");
+        document.getElementById("download-json-btn").classList.remove("hidden");
+      });
+
+      document.getElementById("download-json-btn").addEventListener("click", () => {
+        const blob = new Blob([generatedJson], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "catalog.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    })();
+  </script>
+</body>
+</html>

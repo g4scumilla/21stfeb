@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Store — Public Android APK Marketplace</title>
+  <meta name="description" content="Browse and download verified public Android APK releases directly from GitHub Releases." />
+  <link rel="icon" type="image/png" href="assets/mystore-logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#home">
+        <img src="assets/mystore-logo.png" alt="My Store Logo" class="brand-logo" />
+        <div>
+          <span class="brand-title">My Store</span>
+          <span class="brand-sub">GitHub Releases Marketplace</span>
+        </div>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#catalog">Apps</a>
+        <a href="#categories">Categories</a>
+        <a href="admin.html">Admin Tool</a>
+        <a href="#about">About</a>
+        <a href="privacy.html">Privacy</a>
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark or light theme">
+          <span id="theme-label">Light</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="pill">HTTPS + SHA-256 Verified Releases</span>
+          <h1>Independent Android APKs, Direct from GitHub.</h1>
+          <p>
+            Browse public Android applications, inspect permissions and release notes, verify SHA-256 checksums,
+            and download APKs directly or install them through the native <strong>My Store</strong> Android app.
+          </p>
+          <div class="hero-actions">
+            <a id="download-mystore-btn" href="#catalog" class="btn btn-primary">Browse Applications</a>
+            <a href="admin.html" class="btn btn-secondary">Publish an App (Admin)</a>
+          </div>
+          <p id="catalog-status" class="status-note">Loading catalog…</p>
+        </div>
+        <div class="hero-visual">
+          <img src="assets/hero-banner.jpg" alt="My Store Marketplace Showcase" />
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog" class="section">
+      <div class="container">
+        <div class="controls-bar">
+          <div class="search-wrap">
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Search apps, developers, package names, or categories…"
+              aria-label="Search applications"
+            />
+          </div>
+          <div id="categories" class="categories-strip" role="tablist" aria-label="App Categories"></div>
+        </div>
+
+        <div id="featured-section" class="subsection hidden">
+          <h2>Featured Applications</h2>
+          <div id="featured-grid" class="app-grid"></div>
+        </div>
+
+        <div class="subsection">
+          <div class="section-head">
+            <h2 id="listing-heading">All Applications</h2>
+            <span id="listing-count" class="muted"></span>
+          </div>
+          <div id="apps-grid" class="app-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section section-alt">
+      <div class="container info-grid">
+        <article class="info-card">
+          <h3>About My Store</h3>
+          <p>
+            My Store is an open, zero-cost Android APK distribution marketplace powered by GitHub Pages,
+            GitHub Actions, and GitHub Releases. Every release is signed consistently and published with a
+            verifiable SHA-256 checksum.
+          </p>
+        </article>
+        <article class="info-card">
+          <h3>APK Safety Notice</h3>
+          <p>
+            Third-party APKs are independently distributed and have not necessarily been reviewed by Google Play.
+            A SHA-256 checksum verifies file integrity against the catalog's published digest—it does not
+            constitute malware scanning. Always review app permissions before installing.
+          </p>
+        </article>
+        <article id="contact" class="info-card">
+          <h3>Contact &amp; Support</h3>
+          <p>
+            For bug reports, release inquiries, or takedown requests, please open an issue on the public
+            GitHub repository hosting this My Store catalog.
+          </p>
+          <a href="privacy.html" class="text-link">Read Privacy Policy →</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>My Store • Independent Android APK Marketplace</span>
+      <div class="footer-links">
+        <a href="admin.html">Admin Publisher</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="data/catalog.json">catalog.json</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Details Modal -->
+  <div id="app-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-app-name">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-card">
+      <button id="modal-close" class="modal-close" type="button" aria-label="Close app details">✕</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
