@@ -3,6 +3,6 @@
     <item
         android:width="66dp"
         android:height="66dp"
-        android:drawable="@drawable/mystore_icon"
+        android:drawable="@drawable/zayaan_apps_icon_1794953879737"
         android:gravity="center" />
 </layer-list>
