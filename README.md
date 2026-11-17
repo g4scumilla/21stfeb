@@ -32,11 +32,11 @@
 Google AI Studio's AI agent does not have direct OAuth access to your GitHub account. Instead, use AI Studio's built-in **Push to GitHub** (or **Export as ZIP** → upload to a new public GitHub repository) in the top/settings menu.
 
 ### 2. Enable GitHub Pages (Free Public Website)
-1. Open your public GitHub repository on `github.com`.
+1. Open your public GitHub repository at `https://github.com/g4scumilla/21stfeb`.
 2. Go to **Settings → Pages**.
 3. Under **Build and deployment → Source**, choose **Deploy from a branch**.
 4. Select branch `main` and folder `/docs`, then click **Save**.
-5. Your public website will be live at `https://YOUR-USERNAME.github.io/YOUR-REPO/`.
+5. Your public website will be live at `https://g4scumilla.github.io/21stfeb/` (catalog: `https://g4scumilla.github.io/21stfeb/data/catalog.json`).
 
 ### 3. Create Your Permanent Signing Key (One-Time Setup)
 Never lose your signing key—Android requires every update of an app to match the exact signing certificate of the original install.

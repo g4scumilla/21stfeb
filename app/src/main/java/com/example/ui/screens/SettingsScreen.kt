@@ -188,14 +188,15 @@ fun SettingsScreen(
                             ) {
                                 Text("Save & Sync")
                             }
-                            if (catalogInput.isNotBlank()) {
+                            if (catalogInput != com.example.data.local.SettingsDataStore.DEFAULT_CATALOG_URL) {
                                 OutlinedButton(
                                     onClick = {
-                                        catalogInput = ""
-                                        onSaveCatalogUrl("")
+                                        val def = com.example.data.local.SettingsDataStore.DEFAULT_CATALOG_URL
+                                        catalogInput = def
+                                        onSaveCatalogUrl(def)
                                     }
                                 ) {
-                                    Text("Reset")
+                                    Text("Reset Default")
                                 }
                             }
                         }

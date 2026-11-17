@@ -17,7 +17,7 @@ private val Context.settingsDataStore: DataStore<Preferences> by preferencesData
 
 data class StorePreferences(
     val themeMode: ThemeMode = ThemeMode.DARK,
-    val catalogUrl: String = "",
+    val catalogUrl: String = SettingsDataStore.DEFAULT_CATALOG_URL,
     val notificationsEnabled: Boolean = true,
     val autoCheckUpdates: Boolean = true
 )
@@ -35,7 +35,8 @@ class SettingsDataStore(private val context: Context) {
         val themeMode = runCatching { ThemeMode.valueOf(themeName) }.getOrDefault(ThemeMode.DARK)
         StorePreferences(
             themeMode = themeMode,
-            catalogUrl = prefs[Keys.CATALOG_URL] ?: "",
+            catalogUrl = prefs[Keys.CATALOG_URL]?.takeIf { it.isNotBlank() }
+                ?: DEFAULT_CATALOG_URL,
             notificationsEnabled = prefs[Keys.NOTIFICATIONS_ENABLED] ?: true,
             autoCheckUpdates = prefs[Keys.AUTO_CHECK_UPDATES] ?: true
         )
@@ -59,6 +60,8 @@ class SettingsDataStore(private val context: Context) {
     }
 
     companion object {
+        const val DEFAULT_CATALOG_URL = "https://g4scumilla.github.io/21stfeb/data/catalog.json"
+
         /**
          * Accepts either a full https://.../catalog.json URL, a GitHub Pages base URL,
          * or a shorthand "username/repo" string and converts it cleanly to the GitHub Pages catalog URL.
