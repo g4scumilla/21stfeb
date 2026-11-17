@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "storeName": "My Store",
-  "updatedAt": "2026-11-17T10:00:00Z",
+  "updatedAt": "2026-11-17T21:30:29Z",
   "categories": [
     "All Apps",
     "Productivity",
@@ -37,18 +37,18 @@
       "versionName": "1.0.0",
       "versionCode": 1,
       "releaseDate": "2026-11-17",
-      "releaseUrl": "https://github.com/g4scumilla/21stfeb/releases",
-      "apkUrl": "",
-      "apkSizeBytes": 0,
-      "sha256": "",
+      "releaseUrl": "https://github.com/g4scumilla/21stfeb/releases/tag/v1.0.0",
+      "apkUrl": "https://github.com/g4scumilla/21stfeb/releases/download/v1.0.0/MyStore-v1.0.0.apk",
+      "apkSizeBytes": 15186646,
+      "sha256": "7acd2a0974e684b046bce0833d0588c1aafa0c4143f27236be21aadf8b6d1ed2",
       "minAndroidVersion": "Android 8.0 (API 26)",
       "minSdk": 26,
-      "releaseNotes": "Initial 1.0.0 release of My Store featuring Material 3 Dark/Light/System themes, GitHub Pages catalog sync, HTTPS APK download manager, SHA-256 verification, official PackageInstaller flow, and update detection.",
+      "releaseNotes": "Initial signed release of My Store.",
       "permissions": [
-        "INTERNET — Fetch app catalog and download APKs over HTTPS",
-        "ACCESS_NETWORK_STATE — Detect offline mode accurately",
-        "REQUEST_INSTALL_PACKAGES — Hand off verified APKs to Android's package installer",
-        "POST_NOTIFICATIONS — Notify when downloads complete or updates are available"
+        "INTERNET \u2014 Fetch app catalog and download APKs over HTTPS",
+        "ACCESS_NETWORK_STATE \u2014 Detect offline mode accurately",
+        "REQUEST_INSTALL_PACKAGES \u2014 Hand off verified APKs to Android's package installer",
+        "POST_NOTIFICATIONS \u2014 Notify when downloads complete or updates are available"
       ],
       "featured": true,
       "active": true,
