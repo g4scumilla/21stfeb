@@ -1,4 +1,4 @@
-name: Auto-Publish My Store APK
+name: Auto-Publish Zayaan Apps APK
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   auto-publish:
-    name: Build, Sign & Publish Store Update
+    name: Auto-Increment Version, Sign & Publish Store Update
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -54,26 +54,43 @@ jobs:
         with:
           gradle-version: "9.3.1"
 
-      - name: Extract Version Info from Gradle
+      - name: Auto-Increment Version & Stamp Gradle
         id: version
         run: |
-          VERSION_NAME=$(python3 -c '
-          import re
-          text = open("app/build.gradle.kts").read()
-          m = re.search(r"versionName\s*=\s*\"([^\"]+)\"", text)
-          print(m.group(1) if m else "1.0.0")
-          ')
-          VERSION_CODE=$(python3 -c '
-          import re
-          text = open("app/build.gradle.kts").read()
-          m = re.search(r"versionCode\s*=\s*(\d+)", text)
-          print(m.group(1) if m else "1")
-          ')
-          RUN_NUM="${{ github.run_number }}"
-          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
-          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-          echo "tag_name=v$VERSION_NAME-$RUN_NUM" >> $GITHUB_OUTPUT
-          echo "Release: v$VERSION_NAME (code $VERSION_CODE, run $RUN_NUM)"
+          python3 - <<'PY'
+          import re, pathlib, os
+
+          p = pathlib.Path("app/build.gradle.kts")
+          text = p.read_text(encoding="utf-8")
+
+          m_code = re.search(r"versionCode\s*=\s*(\d+)", text)
+          old_code = int(m_code.group(1)) if m_code else 1
+          new_code = old_code + 1
+
+          m_name = re.search(r"versionName\s*=\s*\"([^\"]+)\"", text)
+          old_name = m_name.group(1) if m_name else "1.0.0"
+          
+          # Auto-increment patch version (e.g. 1.0.0 -> 1.0.1 -> 1.0.2...)
+          parts = old_name.split(".")
+          if len(parts) == 3 and parts[2].isdigit():
+              parts[2] = str(int(parts[2]) + 1)
+              new_name = ".".join(parts)
+          else:
+              new_name = f"1.0.{new_code}"
+
+          text = re.sub(r"versionCode\s*=\s*\d+", f"versionCode = {new_code}", text)
+          text = re.sub(r"versionName\s*=\s*\"[^\"]+\"", f"versionName = \"{new_name}\"", text)
+          p.write_text(text, encoding="utf-8")
+
+          tag_name = f"v{new_name}"
+          print(f"Auto-bumped version: {old_name} (code {old_code}) -> {new_name} (code {new_code})")
+
+          # Write GitHub Actions outputs
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"version_name={new_name}\n")
+              f.write(f"version_code={new_code}\n")
+              f.write(f"tag_name={tag_name}\n")
+          PY
 
       - name: Run Tests
         run: gradle :app:testDebugUnitTest --no-daemon
@@ -103,8 +120,9 @@ jobs:
       - name: Verify APK Signature & Generate SHA-256 Checksum
         id: pkg
         run: |
+          VERSION_NAME=$(python3 -c 'import re; print(re.search(r"versionName\s*=\s*\"([^\"]+)\"", open("app/build.gradle.kts").read()).group(1))')
           APK_SRC="app/build/outputs/apk/release/app-release.apk"
-          APK_DEST="MyStore-v${{ steps.version.outputs.version_name }}-${{ github.run_number }}.apk"
+          APK_DEST="ZayaanApps-v${VERSION_NAME}.apk"
           cp "$APK_SRC" "$APK_DEST"
           SDK_DIR="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
           APKSIGNER=$(find "$SDK_DIR/build-tools" -name "apksigner" | sort -V | tail -n 1)
@@ -112,39 +130,44 @@ jobs:
           SHA256=$(sha256sum "$APK_DEST" | awk '{print $1}')
           SIZE=$(wc -c < "$APK_DEST" | tr -d ' ')
           echo "$SHA256  $APK_DEST" > "${APK_DEST}.sha256"
-          echo "apk_file=$APK_DEST" >> "$GITHUB_OUTPUT"
-          echo "sha_file=${APK_DEST}.sha256" >> "$GITHUB_OUTPUT"
-          echo "sha256=$SHA256" >> "$GITHUB_OUTPUT"
-          echo "size_bytes=$SIZE" >> "$GITHUB_OUTPUT"
+          echo "apk_file=$APK_DEST" >> $GITHUB_OUTPUT
+          echo "sha_file=${APK_DEST}.sha256" >> $GITHUB_OUTPUT
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+          echo "size_bytes=$SIZE" >> $GITHUB_OUTPUT
 
       - name: Update Central Catalog (docs/data/catalog.json)
         run: |
+          VERSION_NAME=$(python3 -c 'import re; print(re.search(r"versionName\s*=\s*\"([^\"]+)\"", open("app/build.gradle.kts").read()).group(1))')
+          VERSION_CODE=$(python3 -c 'import re; print(re.search(r"versionCode\s*=\s*(\d+)", open("app/build.gradle.kts").read()).group(1))')
+          TAG_NAME="v$VERSION_NAME"
           python3 scripts/update-catalog.py \
             --catalog docs/data/catalog.json \
             --package-name com.mystore.app \
-            --version-name "${{ steps.version.outputs.version_name }}" \
-            --version-code "${{ steps.version.outputs.version_code }}" \
-            --apk-url "https://github.com/${{ github.repository }}/releases/download/${{ steps.version.outputs.tag_name }}/${{ steps.pkg.outputs.apk_file }}" \
-            --release-url "https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.tag_name }}" \
+            --version-name "$VERSION_NAME" \
+            --version-code "$VERSION_CODE" \
+            --apk-url "https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/${{ steps.pkg.outputs.apk_file }}" \
+            --release-url "https://github.com/${{ github.repository }}/releases/tag/$TAG_NAME" \
             --sha256 "${{ steps.pkg.outputs.sha256 }}" \
             --size-bytes "${{ steps.pkg.outputs.size_bytes }}" \
             --release-notes "Auto-published update from AI Studio push (${{ github.sha }})"
 
-      - name: Commit Catalog Update
+      - name: Commit Version & Catalog Update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           rm -f "${{ github.workspace }}/my-upload-key.jks"
-          git add docs/data/catalog.json
-          git diff --cached --quiet || git commit -m "chore: auto-update catalog for v${{ steps.version.outputs.version_name }}"
+          git add app/build.gradle.kts docs/data/catalog.json
+          git diff --cached --quiet || git commit -m "release: auto-bump version and update catalog"
           git push || true
 
       - name: Create GitHub Release & Upload APK
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ steps.version.outputs.tag_name }}" \
+          VERSION_NAME=$(python3 -c 'import re; print(re.search(r"versionName\s*=\s*\"([^\"]+)\"", open("app/build.gradle.kts").read()).group(1))')
+          TAG_NAME="v$VERSION_NAME"
+          gh release create "$TAG_NAME" \
             "${{ steps.pkg.outputs.apk_file }}" \
             "${{ steps.pkg.outputs.sha_file }}" \
-            --title "My Store v${{ steps.version.outputs.version_name }} (Build ${{ github.run_number }})" \
-            --notes "Automated signed release from AI Studio push. SHA-256: \`${{ steps.pkg.outputs.sha256 }}\`"
+            --title "Zayaan Apps v$VERSION_NAME" \
+            --notes "Automated signed release. SHA-256: \`${{ steps.pkg.outputs.sha256 }}\`"
