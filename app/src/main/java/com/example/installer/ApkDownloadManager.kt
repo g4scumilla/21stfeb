@@ -154,6 +154,16 @@ class ApkDownloadManager(
                 activeCalls[record.downloadId] = call
 
                 call.execute().use { response ->
+                    if (response.isRedirect) {
+                        val location = response.header("Location").orEmpty()
+                        if (location.startsWith("http://", ignoreCase = true)) {
+                            val host = runCatching { java.net.URI(location).host }.getOrNull().orEmpty()
+                            val target = if (host.isNotBlank()) " ($host)" else ""
+                            throw IllegalStateException(
+                                "APK link redirected to insecure http://$target. Host the APK over HTTPS (such as GitHub Releases)."
+                            )
+                        }
+                    }
                     if (!response.isSuccessful) {
                         throw IllegalStateException("Server returned HTTP ${response.code}")
                     }

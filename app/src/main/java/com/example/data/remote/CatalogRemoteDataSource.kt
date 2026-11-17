@@ -50,6 +50,18 @@ class CatalogRemoteDataSource(
                     .header("Cache-Control", "no-cache")
                     .build()
                 okHttpClient.newCall(request).execute().use { response ->
+                    if (response.isRedirect) {
+                        val location = response.header("Location").orEmpty()
+                        if (location.startsWith("http://", ignoreCase = true)) {
+                            val host = runCatching { java.net.URI(location).host }.getOrNull().orEmpty()
+                            val target = if (host.isNotBlank()) " ($host)" else ""
+                            return@withContext Result.failure(
+                                IOException(
+                                    "Server redirected to insecure http://$target. Enable Enforce HTTPS/SSL on that domain or tap Reset Default in Settings."
+                                )
+                            )
+                        }
+                    }
                     if (!response.isSuccessful) {
                         return@withContext Result.failure(
                             IOException("Catalog server returned HTTP ${response.code}")
@@ -62,7 +74,17 @@ class CatalogRemoteDataSource(
                     Result.success(resolveRelativeUrls(parsed, catalogUrl))
                 }
             } catch (e: Exception) {
-                Result.failure(e)
+                val msg = e.message.orEmpty()
+                if (msg.contains("CLEARTEXT", ignoreCase = true)) {
+                    Result.failure(
+                        IOException(
+                            "Unencrypted http:// traffic was blocked for security. Enable HTTPS/SSL on that domain or tap Reset Default in Settings.",
+                            e
+                        )
+                    )
+                } else {
+                    Result.failure(e)
+                }
             }
         }
 

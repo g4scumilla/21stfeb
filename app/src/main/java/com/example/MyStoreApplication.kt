@@ -39,7 +39,7 @@ class MyStoreApplication : Application() {
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .followRedirects(true)
-            .followSslRedirects(true)
+            .followSslRedirects(false)
             .build()
 
         val remoteDataSource = CatalogRemoteDataSource(this, okHttpClient)
