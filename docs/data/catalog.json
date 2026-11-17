@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "storeName": "My Store",
+  "storeName": "Zayaan Apps",
   "updatedAt": "2026-11-17T21:30:29Z",
   "categories": [
     "All Apps",
@@ -17,7 +17,7 @@
   "apps": [
     {
       "id": "my-store",
-      "name": "My Store",
+      "name": "Zayaan Apps",
       "packageName": "com.mystore.app",
       "shortDescription": "Public independent Android APK marketplace powered by GitHub Releases.",
       "description": "My Store is a privacy-respecting, independent Android APK marketplace built for distributing and updating public releases directly from GitHub Releases. Every APK download uses HTTPS, verifies its SHA-256 checksum against the trusted catalog, and hands off installation to Android's official PackageInstaller with full user confirmation.",

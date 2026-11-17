@@ -67,7 +67,7 @@ class MyStoreRobolectricTest {
             "com.other.app" to InstalledAppInfo("com.other.app", "2.0.0", 20L, "CC:DD")
         )
         val catalog = listOf(
-            CatalogApp(id = "my-store", name = "My Store", packageName = "com.mystore.app", versionName = "1.0.1", versionCode = 2L),
+            CatalogApp(id = "my-store", name = "Zayaan Apps", packageName = "com.mystore.app", versionName = "1.0.1", versionCode = 2L),
             CatalogApp(id = "other", name = "Other", packageName = "com.other.app", versionName = "2.0.0", versionCode = 20L)
         )
         val updates = detector.detectAvailableUpdates(catalog, installed)
@@ -84,7 +84,7 @@ class MyStoreRobolectricTest {
         composeRule.waitForIdle()
 
         // Home branding & 5 bottom navigation items visible
-        composeRule.onNodeWithText("My Store").assertIsDisplayed()
+        composeRule.onNodeWithText("Zayaan Apps").assertIsDisplayed()
         composeRule.onNodeWithTag("nav_home").assertIsDisplayed()
         composeRule.onNodeWithTag("nav_categories").assertIsDisplayed()
         composeRule.onNodeWithTag("nav_updates").assertIsDisplayed()
@@ -92,7 +92,7 @@ class MyStoreRobolectricTest {
         composeRule.onNodeWithTag("nav_settings").assertIsDisplayed()
 
         // Search filters catalog
-        composeRule.onNodeWithTag("search_input").performTextInput("My Store")
+        composeRule.onNodeWithTag("search_input").performTextInput("Zayaan Apps")
         composeRule.waitForIdle()
         composeRule.onNodeWithText("Search Results (1)").assertIsDisplayed()
 
