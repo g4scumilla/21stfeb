@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       version_name:
-        description: "Semantic version name (e.g. 1.0.1)"
+        description: "Semantic version name (e.g. 1.0.0)"
         required: true
         type: string
       version_code:
-        description: "Strictly increasing integer versionCode (e.g. 2)"
+        description: "Strictly increasing integer versionCode (e.g. 1)"
         required: true
         type: string
       release_notes:
         description: "Release notes shown in My Store & GitHub Release"
         required: false
-        default: "Stability improvements and updates."
+        default: "Initial signed release of My Store."
         type: string
 
 permissions:
@@ -60,10 +60,14 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-          cache: gradle
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
 
       - name: Stamp Release Version in app/build.gradle.kts
         run: |
@@ -77,13 +81,13 @@ jobs:
           '
 
       - name: Run Automated Tests Before Release
-        run: ./gradlew :app:testDebugUnitTest --no-daemon
+        run: gradle :app:testDebugUnitTest --no-daemon
 
       - name: Decode Permanent Release Keystore
         env:
           KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "$KEYSTORE_B64" | base64 --decode > "${{ github.workspace }}/my-upload-key.jks"
+          echo "$KEYSTORE_B64" | tr -d '\r\n' | base64 --decode > "${{ github.workspace }}/my-upload-key.jks"
           chmod 600 "${{ github.workspace }}/my-upload-key.jks"
 
       - name: Build Signed Release APK
@@ -91,7 +95,7 @@ jobs:
           KEYSTORE_PATH: ${{ github.workspace }}/my-upload-key.jks
           STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
-        run: ./gradlew :app:assembleRelease --no-daemon
+        run: gradle :app:assembleRelease --no-daemon
 
       - name: Verify APK Signature & Generate SHA-256 Checksum
         id: pkg
@@ -99,7 +103,8 @@ jobs:
           APK_SRC="app/build/outputs/apk/release/app-release.apk"
           APK_DEST="MyStore-v${{ inputs.version_name }}.apk"
           cp "$APK_SRC" "$APK_DEST"
-          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name "apksigner" | sort -V | tail -n 1)
+          SDK_DIR="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          APKSIGNER=$(find "$SDK_DIR/build-tools" -name "apksigner" | sort -V | tail -n 1)
           "$APKSIGNER" verify --verbose --print-certs "$APK_DEST"
           SHA256=$(sha256sum "$APK_DEST" | awk '{print $1}')
           SIZE=$(wc -c < "$APK_DEST" | tr -d ' ')
@@ -128,7 +133,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           rm -f "${{ github.workspace }}/my-upload-key.jks"
           git add app/build.gradle.kts docs/data/catalog.json
-          git commit -m "release: My Store v${{ inputs.version_name }} (code ${{ inputs.version_code }})"
+          git diff --cached --quiet || git commit -m "release: My Store v${{ inputs.version_name }} (code ${{ inputs.version_code }})"
           git push
 
       - name: Create GitHub Release & Upload Signed APK + SHA-256
