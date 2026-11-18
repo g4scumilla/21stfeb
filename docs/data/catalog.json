@@ -54,6 +54,39 @@
       "active": true,
       "addedAt": "2026-11-17T10:00:00Z",
       "downloadCount": null
+    },
+    {
+      "id": "zayaan-authenticator",
+      "name": "Zayaan Authenticator",
+      "packageName": "com.zayaan.authenticator",
+      "shortDescription": "Secure two-factor authentication and code generator app.",
+      "description": "Zayaan Authenticator is a secure, privacy-focused two-factor authentication (2FA) app built for generating time-based one-time passwords (TOTP) to protect your online accounts with robust local encryption.",
+      "developer": "Zayaan Apps",
+      "iconUrl": "",
+      "screenshots": [],
+      "features": [
+        "Secure TOTP code generation",
+        "Offline privacy-first storage",
+        "Clean Material 3 interface"
+      ],
+      "category": "Security",
+      "versionName": "1.0.0",
+      "versionCode": 1,
+      "releaseDate": "2026-11-17",
+      "releaseUrl": "https://github.com/g4scumilla/Zayaan-Authenticator/releases",
+      "apkUrl": "https://github.com/g4scumilla/Zayaan-Authenticator/releases/latest/download/ZayaanAuthenticator-v1.0.0.apk",
+      "apkSizeBytes": 12500000,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "minAndroidVersion": "Android 8.0 (API 26)",
+      "minSdk": 26,
+      "releaseNotes": "Initial release of Zayaan Authenticator.",
+      "permissions": [
+        "INTERNET — Check for updates over HTTPS"
+      ],
+      "featured": true,
+      "active": true,
+      "addedAt": "2026-11-17T23:55:00Z",
+      "downloadCount": null
     }
   ]
 }

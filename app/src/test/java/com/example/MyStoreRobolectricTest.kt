@@ -92,7 +92,7 @@ class MyStoreRobolectricTest {
         composeRule.onNodeWithTag("nav_settings").assertIsDisplayed()
 
         // Search filters catalog
-        composeRule.onNodeWithTag("search_input").performTextInput("Zayaan Apps")
+        composeRule.onNodeWithTag("search_input").performTextInput("Authenticator")
         composeRule.waitForIdle()
         composeRule.onNodeWithText("Search Results (1)").assertIsDisplayed()
 
@@ -123,7 +123,7 @@ class MyStoreRobolectricTest {
         // Navigate back to Home, open App Details, and verify disclosure + SHA-256 section
         composeRule.onNodeWithTag("nav_home").performClick()
         composeRule.waitForIdle()
-        composeRule.onNodeWithTag("app_card_my-store").performClick()
+        composeRule.onNodeWithText("Zayaan Authenticator").performClick()
         composeRule.waitForIdle()
         composeRule.onNodeWithTag("app_details_scroll").assertIsDisplayed()
         composeRule.onNodeWithTag("details_back_button").performClick()
