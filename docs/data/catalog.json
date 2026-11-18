@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "storeName": "Zayaan Apps",
-  "updatedAt": "2026-11-17T22:28:05Z",
+  "updatedAt": "2026-11-18T08:16:14Z",
   "categories": [
     "All Apps",
     "Productivity",
@@ -34,16 +34,16 @@
         "Offline catalog caching & download history"
       ],
       "category": "Tools",
-      "versionName": "1.0.2",
-      "versionCode": 3,
-      "releaseDate": "2026-11-17",
-      "releaseUrl": "https://github.com/g4scumilla/21stfeb/releases/tag/v1.0.2",
-      "apkUrl": "https://github.com/g4scumilla/21stfeb/releases/download/v1.0.2/ZayaanApps-v1.0.2.apk",
-      "apkSizeBytes": 15742206,
-      "sha256": "f0f65b2110a2f8a453a27a41a0b62e3b0261c6f4067d3f73c9265e5924479c65",
+      "versionName": "1.0.3",
+      "versionCode": 4,
+      "releaseDate": "2026-11-18",
+      "releaseUrl": "https://github.com/g4scumilla/21stfeb/releases/tag/v1.0.3",
+      "apkUrl": "https://github.com/g4scumilla/21stfeb/releases/download/v1.0.3/ZayaanApps-v1.0.3.apk",
+      "apkSizeBytes": 15742546,
+      "sha256": "4895df4f5e1634a7a0f83024d6044cc743eb6132f98d6e9415027aac7afcce90",
       "minAndroidVersion": "Android 8.0 (API 26)",
       "minSdk": 26,
-      "releaseNotes": "Auto-published update from AI Studio push (b9f9da1fd12f4f22f76b5a2714ff741ba58a0c84)",
+      "releaseNotes": "Auto-published update from AI Studio push (5ed932a2568becdcccba39dc560b956d46e67212)",
       "permissions": [
         "INTERNET \u2014 Fetch app catalog and download APKs over HTTPS",
         "ACCESS_NETWORK_STATE \u2014 Detect offline mode accurately",
@@ -81,7 +81,7 @@
       "minSdk": 26,
       "releaseNotes": "Initial release of Zayaan Authenticator.",
       "permissions": [
-        "INTERNET — Check for updates over HTTPS"
+        "INTERNET \u2014 Check for updates over HTTPS"
       ],
       "featured": true,
       "active": true,
